@@ -137,9 +137,57 @@ LOGGING = {
         'django_logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '/home/' + "/django.log",
+            'filename': "/home" + "/django.log",
             'maxBytes': 50000,
             'backupCount': 2,
-        }
+        },
+        'db_logfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': "/home" + "/db.log",
+            'maxBytes': 50000,
+            'backupCount': 2,
+        },
+        'celery_logfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': "/home" + "/celery.log",
+            'maxBytes': 50000,
+            'backupCount': 2,
+        },
+        'common_logfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': "/home" + "/common.log",
+            'maxBytes': 50000,
+            'backupCount': 2,
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'django_logfile'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+        'django.db.backends': {
+            'handlers': ['console', 'db_logfile'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'celery.task': {
+            'handlers': ['console', 'celery_logfile'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        '': {
+            'handlers': ['common_logfile'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+
     }
 }
