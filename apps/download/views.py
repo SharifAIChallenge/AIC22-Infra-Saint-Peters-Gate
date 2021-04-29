@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from services.minio_cli import BucketName
+from services import BucketName
 from gateway.settings import MINIO_DOWNLOAD_LINK_DOMAIN
 from apps import permissions
 

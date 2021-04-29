@@ -1,8 +1,7 @@
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from services.kafka_cli import KafkaClient, Topics
-from services.minio_cli import MinioClient, BucketName
+from services import KafkaClient, Topics, MinioClient, BucketName
 import uuid
 from apps import permissions
 
