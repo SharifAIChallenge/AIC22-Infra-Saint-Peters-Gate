@@ -3,7 +3,7 @@ import os
 from json import dumps
 
 from kafka import KafkaProducer
-from gateway.settings import KAFKA_ENDPOINT, arenas
+from gateway.settings import KAFKA_ENDPOINT
 from gateway.settings import (
     KAFKA_TOPIC_MATCH_0,
     KAFKA_TOPIC_MATCH_1,
@@ -15,6 +15,25 @@ kafka_producer = KafkaProducer(
     bootstrap_servers=KAFKA_ENDPOINT,
     value_serializer=lambda x: dumps(x).encode('utf-8')
 )
+
+
+class Topic:
+    def __init__(self, topic_name, total_partitions):
+        self.total_partitions = total_partitions
+        self.cur = f'{self.topic_name}_partition_id'
+        self.topic_name = topic_name
+
+    def get_partition(self):
+        cur_partition = int(os.getenv(self.cur))
+        cur_partition = (cur_partition + 1) % self.total_partitions
+        os.putenv(self.cur, cur_partition)
+        return cur_partition
+
+
+arenas = [
+    Topic(KAFKA_TOPIC_MATCH_0, KAFKA_TOPIC_MATCH_0_PARTITIONS),
+    Topic(KAFKA_TOPIC_MATCH_1, KAFKA_TOPIC_MATCH_1_PARTITIONS),
+]
 
 
 class Topics(enum.Enum):

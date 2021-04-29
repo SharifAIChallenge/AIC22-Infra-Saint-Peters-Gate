@@ -86,22 +86,6 @@ KAFKA_TOPIC_MATCH_1_PARTITIONS = int(getenv('KAFKA_TOPIC_MATCH_1_PARTITIONS'))
 WSGI_APPLICATION = 'gateway.wsgi.application'
 
 
-class Topic:
-    def __init__(self, topic_name, total_partitions):
-        self.total_partitions = total_partitions
-        self.cur = 0
-        self.topic_name = topic_name
-
-    def get_partition(self):
-        self.cur = (self.cur + 1) % self.total_partitions
-        return self.cur
-
-
-arenas = [
-    Topic(KAFKA_TOPIC_MATCH_0, KAFKA_TOPIC_MATCH_0_PARTITIONS),
-    Topic(KAFKA_TOPIC_MATCH_1, KAFKA_TOPIC_MATCH_1_PARTITIONS),
-]
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
