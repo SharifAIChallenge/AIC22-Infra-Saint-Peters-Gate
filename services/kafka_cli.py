@@ -36,6 +36,9 @@ class Topics(enum.Enum):
     PLAY_GAME = os.getenv('KAFKA_TOPIC_MATCH')
 
 
+import logging
+
+
 class KafkaClient:
     @staticmethod
     def register_match(priority, message) -> bool:
@@ -43,6 +46,7 @@ class KafkaClient:
             arena = arenas[priority]
             print(arena)
             # kafka_producer.send(topic=arena.topic_name, value=message)
+            logging.warning(f"{arena}")
             kafka_producer.send(topic=arena.topic_name, value=message, partition=arena.get_partition())
             kafka_producer.flush()
             return True
