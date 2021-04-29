@@ -135,7 +135,7 @@ LOGGING = {
     'version': 1.0,
     'handlers': {
         'django_logfile': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': "/home" + "/django.log",
             'maxBytes': 500000,
@@ -156,7 +156,7 @@ LOGGING = {
             'backupCount': 2,
         },
         'common_logfile': {
-            'level': 'INFO',
+            'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
             'filename': "/home" + "/common.log",
             'maxBytes': 5000000,
