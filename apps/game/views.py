@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from services.kafka_cli import KafkaClient
+from services import KafkaClient
 
 from .serializers import GameRegisterSerializer
 import uuid
