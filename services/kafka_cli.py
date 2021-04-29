@@ -41,7 +41,9 @@ class KafkaClient:
     def register_match(priority, message) -> bool:
         try:
             arena = arenas[priority]
-            kafka_producer.send(topic=arena.topic_name, value=message, partition=arena.get_partition())
+            # kafka_producer.send(topic=arena.topic_name, value=message, partition=arena.get_partition())
+            print(arena)
+            kafka_producer.send(topic=arena.topic_name, value=message)
             kafka_producer.flush()
             return True
         except Exception as e:
