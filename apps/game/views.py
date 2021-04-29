@@ -17,7 +17,7 @@ class PlayGameAPIView(GenericAPIView):
         if priority.isnumeric():
             priority = int(priority)
             if priority != 1:
-                priority=0
+                priority = 0
 
         game_id = uuid.uuid4()
         serializer = self.get_serializer(data=request.data)

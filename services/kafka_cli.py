@@ -26,27 +26,22 @@ class Topic:
         return self.cur
 
 
-arenas = [Topic(KAFKA_TOPIC_MATCH_0, KAFKA_TOPIC_MATCH_0_PARTITIONS),
-          Topic(KAFKA_TOPIC_MATCH_1, KAFKA_TOPIC_MATCH_1_PARTITIONS),
-          ]
-
 
 class Topics(enum.Enum):
     STORE_CODE = os.getenv('KAFKA_TOPIC_STORE_CODE')
     PLAY_GAME = os.getenv('KAFKA_TOPIC_MATCH')
 
 
-import logging
-
-
 class KafkaClient:
+    arenas = [Topic(KAFKA_TOPIC_MATCH_0, KAFKA_TOPIC_MATCH_0_PARTITIONS),
+              Topic(KAFKA_TOPIC_MATCH_1, KAFKA_TOPIC_MATCH_1_PARTITIONS)]
+
     @staticmethod
     def register_match(priority, message) -> bool:
         try:
-            arena = arenas[priority]
+            arena = KafkaClient.arenas[priority]
             print(arena)
             # kafka_producer.send(topic=arena.topic_name, value=message)
-            logging.warning(f"{arena}")
             kafka_producer.send(topic=arena.topic_name, value=message, partition=arena.get_partition())
             kafka_producer.flush()
             return True
