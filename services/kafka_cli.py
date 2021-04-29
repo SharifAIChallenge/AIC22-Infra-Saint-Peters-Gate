@@ -20,13 +20,15 @@ kafka_producer = KafkaProducer(
 class Topic:
     def __init__(self, topic_name, total_partitions):
         self.total_partitions = total_partitions
-        self.cur = f'{self.topic_name}_partition_id'
         self.topic_name = topic_name
+        self.cur = f'{self.topic_name}_partition_id'
+        if os.getenv(self.cur) is None:
+            os.environ[self.cur] = '0'
 
     def get_partition(self):
         cur_partition = int(os.getenv(self.cur))
         cur_partition = (cur_partition + 1) % self.total_partitions
-        os.putenv(self.cur, cur_partition)
+        os.environ[self.cur] = str(cur_partition)
         return cur_partition
 
 
