@@ -20,7 +20,7 @@ class StoreCodeAPIView(GenericAPIView):
             return Response(data={'error': 'minio server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         kafka_message = {'code_id': str(code_id), 'language': language}
-        successful_send_to_kafka = KafkaClient.send_message(Topics.STORE_CODE.value, kafka_message)
+        successful_send_to_kafka = KafkaClient.send_code(Topics.STORE_CODE.value, kafka_message)
         if not successful_send_to_kafka:
             return Response(data={'error': 'kafka server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

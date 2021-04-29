@@ -24,5 +24,5 @@ class PlayGameAPIView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         game_information = serializer.data
         game_information['game_id'] = str(game_id)
-        KafkaClient.send_message(priority, game_information)
+        KafkaClient.register_match(priority, game_information)
         return Response(data={'game_id': game_id}, status=status.HTTP_200_OK)
