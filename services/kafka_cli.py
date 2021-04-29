@@ -2,10 +2,8 @@ import enum
 import os
 from json import dumps
 
-from django.conf import settings
-
 from kafka import KafkaProducer
-from gateway.settings import KAFKA_ENDPOINT
+from gateway.settings import KAFKA_ENDPOINT, arenas
 from gateway.settings import (
     KAFKA_TOPIC_MATCH_0,
     KAFKA_TOPIC_MATCH_1,
