@@ -3,6 +3,8 @@ import os
 from json import dumps
 
 from kafka import KafkaProducer
+from kafka.errors import KafkaTimeoutError
+
 from gateway.settings import KAFKA_ENDPOINT
 from gateway.settings import (
     KAFKA_TOPIC_MATCH_0,
@@ -21,15 +23,11 @@ class Topic:
     def __init__(self, topic_name, total_partitions):
         self.total_partitions = total_partitions
         self.topic_name = topic_name
-        self.cur = f'{self.topic_name}_partition_id'
-        if os.getenv(self.cur) is None:
-            os.environ[self.cur] = '0'
+        self.cur = 0
 
     def get_partition(self):
-        cur_partition = int(os.getenv(self.cur))
-        cur_partition = (cur_partition + 1) % self.total_partitions
-        os.environ[self.cur] = str(cur_partition)
-        return cur_partition
+        self.cur = (self.cur + 1) % self.total_partitions
+        return self.cur
 
 
 arenas = [
@@ -55,7 +53,7 @@ class KafkaClient:
                                 partition=arena.get_partition())
             kafka_producer.flush()
             return True
-        except Exception as e:
+        except KafkaTimeoutError as e:
             print(e)
             return False
 
@@ -65,6 +63,6 @@ class KafkaClient:
             kafka_producer.send(topic=topic, value=message)
             kafka_producer.flush()
             return True
-        except Exception as e:
+        except KafkaTimeoutError as e:
             print(e)
             return False
