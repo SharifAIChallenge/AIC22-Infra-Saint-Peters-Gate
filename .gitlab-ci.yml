@@ -29,7 +29,7 @@ var-check:
 build-push-image:
   stage: publish-image
   image:
-    name: csanchez/kaniko
+    name: gcr.io/kaniko-project/executor:debug
     entrypoint: [""]
 
   before_script:
