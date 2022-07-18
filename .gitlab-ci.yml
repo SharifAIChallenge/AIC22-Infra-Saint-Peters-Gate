@@ -42,7 +42,7 @@ deploy-production:
     - if: '$CI_COMMIT_BRANCH == "master"'
       when: on_success
   before_script:
-    - chmod -R 700 $SSH_PRIVATE_KEY
+    - chmod 700 $SSH_PRIVATE_KEY
     - FINAL_SERVICE_NAME=infra_$SERVICE_NAME
   script:
     - ssh -i $SSH_PRIVATE_KEY -o "StrictHostKeyChecking=no" ubuntu@$SWARM_MANAGER_SERVER -t "docker service update --image $IMAGE_URL $FINAL_SERVICE_NAME"
