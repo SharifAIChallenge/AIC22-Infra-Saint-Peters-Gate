@@ -3,28 +3,28 @@ stages:
   - deploy-production
 
 variables:
-  IMAGE_TAG: $CI_PIPELINE_ID-$CI_COMMIT_SHORT_SHA
+  # IMAGE_TAG: $CI_PIPELINE_ID-$CI_COMMIT_SHORT_SHA
   IMAGE_URL: $SSC_REGISTRY_URL/$CI_PROJECT_PATH:$CI_PIPELINE_ID-$CI_COMMIT_SHORT_SHA
 
-workflow:
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      when: always
-    - when: never
+# workflow:
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == "master"'
+#       when: always
+#     - when: never
   
-var-check:
-  stage: build
-  image:
-    name: reg.aichallenge.ir/alpine:latest
-    entrypoint: [""]
+# var-check:
+#   stage: build
+#   image:
+#     name: reg.aichallenge.ir/alpine:latest
+#     entrypoint: [""]
 
-  before_script:
-    - echo "service == $SERVICE_NAME"
-    - echo "reg ====== $SSC_REGISTRY_URL"
-    - echo "image tag == $IMAGE_TAG"
-    - echo "image url == $IMAGE_URL"
-  script:
-   - echo "ip ======== $SWARM_MANAGER_SERVER"
+#   before_script:
+#     - echo "service == $SERVICE_NAME"
+#     - echo "reg ====== $SSC_REGISTRY_URL"
+#     - echo "image tag == $IMAGE_TAG"
+#     - echo "image url == $IMAGE_URL"
+#   script:
+#    - echo "ip ======== $SWARM_MANAGER_SERVER"
   
 build:
   stage: build
