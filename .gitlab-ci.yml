@@ -39,14 +39,10 @@ build:
 deploy-production:
   stage: deploy-production
   image: kroniak/ssh-client:latest
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      when: on_success
   before_script:
     - chmod -R 700 $SSH_PRIVATE_KEY
-    - FINAL_SERVICE_NAME=infra_$SERVICE_NAME
   script:
-    - ssh -i $SSH_PRIVATE_KEY -o "StrictHostKeyChecking=no" ubuntu@SWARM_MANAGER_SERVER -t "docker service update --image $IMAGE_URL $FINAL_SERVICE_NAME"
+    - ssh -i $SSH_PRIVATE_KEY -o "StrictHostKeyChecking=no" ubuntu@94.101.187.20 -t "docker service update --image $IMAGE_URL infra_gateway"
 
 
 # deploy-production:
@@ -56,12 +52,8 @@ deploy-production:
 #     - if: '$CI_COMMIT_BRANCH == "master"'
 #       when: on_success
 #   before_script:
-#     - mkdir -p ~/.ssh
-#     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-#     - chmod 700 ~/.ssh/id_rsa
-#     - eval "$(ssh-agent -s)"
-#     - ssh-add ~/.ssh/id_rsa
+#     - chmod -R 700 $SSH_PRIVATE_KEY
 #     - FINAL_SERVICE_NAME=infra_$SERVICE_NAME
 #   script:
-#     - ssh -o "StrictHostKeyChecking=no" root@$SWARM_MANAGER_SERVER -p$SWARM_MANAGER_SERVER_SSH_PORT -t "docker service update --image $IMAGE_URL $FINAL_SERVICE_NAME"
+#     - ssh -i $SSH_PRIVATE_KEY -o "StrictHostKeyChecking=no" ubuntu@SWARM_MANAGER_SERVER -t "docker service update --image $IMAGE_URL $FINAL_SERVICE_NAME"
 
