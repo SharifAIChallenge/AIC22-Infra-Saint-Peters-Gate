@@ -36,27 +36,18 @@ build:
     - docker push $IMAGE_URL
 
 
-
 deploy-production:
   stage: deploy-production
   image: kroniak/ssh-client:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      when: on_success
   before_script:
-    - chmod -R 700 $SSH_PRIVATE_KEY
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
+    - FINAL_SERVICE_NAME=infra_$SERVICE_NAME
   script:
-    - ssh -i $SSH_PRIVATE_KEY -o "StrictHostKeyChecking=no" ubuntu@94.101.187.20 -t "docker service update --image $IMAGE_URL infra_gateway"
-
-
-# deploy-production:
-#   stage: deploy-production
-#   image: kroniak/ssh-client:latest
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == "master"'
-#       when: on_success
-#   before_script:
-#     - chmod 700 $SSH_PRIVATE_KEY
-#     - FINAL_SERVICE_NAME=infra_$SERVICE_NAME
-#   script:
-#     - ssh -i $SSH_PRIVATE_KEY -o "StrictHostKeyChecking=no" ubuntu@$SWARM_MANAGER_SERVER -t "docker service update --image $IMAGE_URL $FINAL_SERVICE_NAME"
+    - ssh -i $SSH_PRIVATE_KEY -o "StrictHostKeyChecking=no" ubuntu@$SWARM_MANAGER_SERVER -t "docker service update --image $IMAGE_URL $FINAL_SERVICE_NAME"
 
 
 # deploy-production:
