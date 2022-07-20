@@ -8,4 +8,3 @@ RUN pip install -r ./requirements.txt
 ADD ./ ./
 run chmod +x entrypoint.sh
 CMD ["./entrypoint.sh"]
-
