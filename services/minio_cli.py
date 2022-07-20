@@ -17,7 +17,6 @@ class BucketName(enum.Enum):
     Map = os.getenv('MINIO_BUCKET_MAP')
     Log = os.getenv('MINIO_BUCKET_LOG')
 
-
 for e in BucketName:
     found = client.bucket_exists(e.value)
     if not found:

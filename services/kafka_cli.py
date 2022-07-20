@@ -40,7 +40,6 @@ class Topics(enum.Enum):
     STORE_CODE = os.getenv('KAFKA_TOPIC_STORE_CODE')
     PLAY_GAME = os.getenv('KAFKA_TOPIC_MATCH')
 
-
 class KafkaClient:
     @staticmethod
     def register_match(priority, message) -> bool:
