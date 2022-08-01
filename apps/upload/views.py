@@ -14,7 +14,7 @@ class StoreCodeAPIView(GenericAPIView):
         code_id = uuid.uuid4()
         file = request.FILES['file']
 
-        successful_upload_to_minio = MinioClient.upload(code_id, file, BucketName.Code.value, postfix='zip')
+        successful_upload_to_minio = MinioClient.upload(code_id, file, BucketName.Code.value, postfix='.zip')
         if not successful_upload_to_minio:
             return Response(data={'error': 'minio server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
