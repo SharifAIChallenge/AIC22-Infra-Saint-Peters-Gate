@@ -32,8 +32,13 @@ class StoreMapAPIView(GenericAPIView):
     def post(self, request):
         map_id = uuid.uuid4()
         file = request.FILES['file']
+        json_file = request.FILES['json-file']
 
         successful_upload_to_minio = MinioClient.upload(map_id, file, BucketName.Map.value, postfix='')
+        if not successful_upload_to_minio:
+            return Response(data={'error': 'minio server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+        successful_upload_to_minio = MinioClient.upload(map_id, json_file, "map-json", postfix='')
         if not successful_upload_to_minio:
             return Response(data={'error': 'minio server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
