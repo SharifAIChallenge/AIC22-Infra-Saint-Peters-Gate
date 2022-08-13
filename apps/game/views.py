@@ -9,7 +9,7 @@ from apps import permissions
 
 
 class PlayGameAPIView(GenericAPIView):
-    # permission_classes = [permissions.IsBackend]
+    permission_classes = [permissions.IsBackend]
     serializer_class = GameRegisterSerializer
 
     def post(self, request):
